@@ -1,6 +1,7 @@
 ---
 - hosts: localhost
   remote_user: root
-  vars:
+  include_vars: vars.yml
+  # vars:
   roles:
     - role_under_test

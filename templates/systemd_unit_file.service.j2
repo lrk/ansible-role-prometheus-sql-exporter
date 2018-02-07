@@ -1,0 +1,36 @@
+[Unit]
+Description=Prometheus SQL Exporter {{ prom_sexp_version }} for target {{ prom_sexp_target.name }}
+Documentation=https://github.com/lrk/ansible-role-prometheus-sql-exporter
+After=network-online.target
+
+[Service]
+User={{ prom_sexp_user }}
+Restart=on-failure
+RestartSec=10
+ExecStart={{ prom_sexp_path_install }}/sql_exporter \
+          -alsologtostderr {{prom_sexp_alsologtostderr | default(true)}} \
+          -config.file {{ prom_sexp_target_config_file }}
+
+[Install]
+WantedBy=multi-user.target
+
+   string
+    	SQL Exporter configuration file name. (default "sql_exporter.yml")
+  -log_backtrace_at value
+    	when logging hits line file:N, emit a stack trace
+  -log_dir string
+    	If non-empty, write log files in this directory
+  -logtostderr
+    	log to standard error instead of files
+  -stderrthreshold value
+    	logs at or above this threshold go to stderr
+  -v value
+    	log level for V logs
+  -version
+    	Print version information.
+  -vmodule value
+    	comma-separated list of pattern=N settings for file-filtered logging
+  -web.listen-address string
+    	Address to listen on for web interface and telemetry. (default ":9399")
+  -web.metrics-path string
+    	Path under which to expose metrics. (default "/metrics")

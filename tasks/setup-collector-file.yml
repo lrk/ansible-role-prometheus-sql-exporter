@@ -1,0 +1,15 @@
+---
+- name: "Ensure not needed collectors files are removed"
+  file:
+    path: "{{ prom_sexp_path_collectors }}/{{ prom_sexp_collector.name }}{{ prom_sexp_path_collectors_suffix }}"
+    state: absent
+  when: "prom_sexp_collector.state != 'present'"
+
+- name: "Ensure needed collectors files are present"
+  template:
+    src: "collector_file.yml.j2"
+    dest: "{{ prom_sexp_path_collectors }}/{{ prom_sexp_collector.name }}{{ prom_sexp_path_collectors_suffix }}"
+    owner: "{{ prom_sexp_user }}"
+    group: "{{ prom_sexp_group }}"
+    mode: "u=rw,g=r,o="
+  when: "prom_sexp_collector.state == 'present'"

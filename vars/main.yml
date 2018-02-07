@@ -2,3 +2,4 @@
 # vars file for ansible-prometheus-sql-exporter
 
 # Internal vars, do not touch nor override
+__prom_sexp_github_bin_url: "https://github.com/free/sql_exporter/releases/download/{{ prom_sexp_version }}/sql_exporter-{{ prom_sexp_version }}.linux-amd64.tar.gz"

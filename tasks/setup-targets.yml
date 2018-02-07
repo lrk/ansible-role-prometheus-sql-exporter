@@ -1,0 +1,7 @@
+---
+
+- name: "Set Prometheus SQL Exporter target facts"
+  //prom_sexp_target_config_file
+
+
+- name: "Ensure Prometheus SQL Exporter target configuration file exist"
