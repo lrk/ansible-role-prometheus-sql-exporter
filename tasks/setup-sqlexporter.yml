@@ -1,1 +1,3 @@
 ---
+- debug:
+    msg: Install Prometheus SQL Exporter binaries not implemented

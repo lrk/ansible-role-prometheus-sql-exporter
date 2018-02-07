@@ -2,7 +2,6 @@
 - hosts: localhost
   remote_user: root
   become: true
-  include_vars: vars.yml
   # vars:
   roles:
     - ansible-prometheus-sql-exporter

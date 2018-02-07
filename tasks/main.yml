@@ -29,11 +29,11 @@
     - "{{ prom_sexp_path_collectors }}"
 
 - name: "Install Prometheus SQL Exporter binaries"
-  include: setup-sqlexporter.yml
+  include_tasks: setup-sqlexporter.yml
 
 - name: "Ensure Prometheus collector files are configured"
   include_tasks: setup-collector-file.yml
-  with_items: {{ prom_sexp_collectors }}
+  with_items: "{{ prom_sexp_collectors }}"
   loop_control:
     loop_var: prom_sexp_collector
   when: prom_sexp_collectors is defined and prom_sexp_collectors != None

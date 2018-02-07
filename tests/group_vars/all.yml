@@ -9,7 +9,7 @@ prom_sexp_targets:
 
   - name: "delete_target"
     state: absent
-    
+
 prom_sexp_collectors:
   - name: collector1
     state: present
