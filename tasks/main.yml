@@ -1,2 +1,46 @@
 ---
 # tasks file for ansible-prometheus-sql-exporter
+
+- name: "Create Prometheus SQL Exporter group"
+  group:
+    name: "{{ prom_sexp_group }}"
+    state: present
+
+- name: "Create Prometheus SQL Exporter system user"
+  user:
+    name: "{{ prom_sexp_user }}"
+    group: "{{ prom_sexp_group }}"
+    createhome: no
+    shell: "/sbin/nologin"
+    comment: "Prometheus SQL Exporter user"
+    state: present
+
+- name: "Create Prometheus SQL Exporter directories"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ prom_sexp_user }}"
+    group: "{{ prom_sexp_group }}"
+    mode: "u=rwx,g=rx,o="
+  with_items:
+    - "{{ prom_sexp_path_install }}"
+    - "{{ prom_sexp_path_logs }}"
+    - "{{ prom_sexp_path_config }}"
+    - "{{ prom_sexp_path_collectors }}"
+
+- name: "Install Prometheus SQL Exporter binaries"
+  include_tasks: setup-sqlexporter.yml
+
+- name: "Ensure Prometheus collector files are configured"
+  include_tasks: setup-collector-file.yml
+  with_items: "{{ prom_sexp_collectors }}"
+  loop_control:
+    loop_var: prom_sexp_collector
+  when: prom_sexp_collectors is defined and prom_sexp_collectors != None
+
+- name: "Ensure Prometheus SQL Exporter targets are configured"
+  include_tasks: setup-targets.yml
+  with_items: "{{ prom_sexp_targets }}"
+  loop_control:
+    loop_var: prom_sexp_target
+  when: prom_sexp_targets is defined and prom_sexp_targets != None

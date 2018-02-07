@@ -1,0 +1,35 @@
+---
+collector_name: {{ prom_sexp_collector.name }}
+min_interval: {{ prom_sexp_collector.min_interval | default(__prom_sexp_default_min_interval) }}
+
+{% if prom_sexp_collector.metrics is defined and prom_sexp_collector.metrics != None %}
+metrics:
+{% for metric in prom_sexp_collector.metrics %}
+  - metric_name: {{ metric.name }}
+    type: {{ metric.type | default('counter') }}
+    help: '{{ metric.help | default('') }}'
+{% if metric.key_labels is defined and metric.key_labels != None %}
+    key_labels: {{ metric.key_labels | join(',')}}
+{% endif %}
+{% if metric.value_label is defined and metric.value_label != None %}
+    value_label: {{ metric.value_label }}
+{% endif %}
+{% if metric.metric_values is defined and metric.metric_values != None %}
+    values: [{{ metric.metric_values | default([]) | join(',')}}]
+{% endif %}
+{% if metric.query is defined and metric.query != None %}
+    query: {{ metric.query | default('')}}
+{% endif %}
+{% if metric.query_ref is defined and metric.query_ref != None %}
+    query_ref: {{ metric.query_ref }}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if prom_sexp_collector.queries is defined and prom_sexp_collector.queries != None %}
+queries:
+{% for query in prom_sexp_collector.queries %}
+  - query_name: {{ query.name }}
+    query: {{ query.query | default('')}}
+{% endfor %}
+{% endif %}

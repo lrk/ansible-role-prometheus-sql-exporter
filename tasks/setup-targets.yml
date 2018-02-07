@@ -1,0 +1,58 @@
+---
+- name: "Set Prometheus SQL Exporter target facts"
+  set_fact:
+    prom_sexp_target_config_file: "{{ prom_sexp_path_config }}/{{ prom_sexp_target.name }}.yml"
+    prom_sexp_target_listen_address: "{{ prom_sexp_target.listen_address|default(__prom_sexp_default_listen_address) }}"
+    prom_sexp_target_metrics_path: "{{ prom_sexp_target.metrics_path|default(__prom_sexp_default_metrics_path) }}"
+    prom_sexp_target_service_name: "{{ prom_sexp_service_name_prefix }}-{{ prom_sexp_target.name|replace(' ', '_') }}"
+
+- name: "Ensure Prometheus SQL Exporter target configuration file exist"
+  template:
+    src: "target_file.yml.j2"
+    dest: "{{ prom_sexp_target_config_file }}"
+    owner: "{{ prom_sexp_user }}"
+    group: "{{ prom_sexp_group }}"
+    mode: "u=rw,g=r,o="
+  when: "prom_sexp_target.state == 'present'"
+  notify: "restart prom_sexp_target service"
+
+- block:
+    - name: "Ensure Prometheus SQL Exporter target systemd's unit file exist"
+      template:
+        src: systemd_unit_file.service.j2
+        dest: "/etc/systemd/system/{{ prom_sexp_target_service_name }}.service"
+      when: "prom_sexp_target.state == 'present'"
+
+    - name: "Ensure Prometheus SQL Exporter target systemd's unit file to be removed exists"
+      stat:
+        path: "/etc/systemd/system/{{ prom_sexp_target_service_name }}.service"
+      register: prom_sexp_target_status
+
+    - name: "Ensure Prometheus service (systemd) is started and enabled"
+      service:
+        name: "{{ prom_sexp_target_service_name }}"
+        state: started
+        enabled: yes
+      when: "prom_sexp_target.state == 'present'"
+
+    - name: "Ensure Prometheus service (systemd) is stopped and disabled"
+      service:
+        name: "{{ prom_sexp_target_service_name }}"
+        state: stopped
+        enabled: no
+      when: "prom_sexp_target.state != 'present' and prom_sexp_target_status.stat.exists"
+
+    - name: "Ensure Prometheus SQL Exporter target systemd's unit file are removed"
+      file:
+        path: "/etc/systemd/system/{{ prom_sexp_target_service_name }}.service"
+        state: absent
+      when: "prom_sexp_target.state != 'present' and prom_sexp_target_status.stat.exists"
+  when: "ansible_service_mgr == 'systemd'"
+
+- name: "Ensure Prometheus SQL Exporter target configuration file is deleted"
+  file:
+    path: "{{ prom_sexp_target_config_file }}"
+    state: absent
+  when: "prom_sexp_target.state != 'present'"
+
+- meta: flush_handlers

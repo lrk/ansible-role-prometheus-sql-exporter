@@ -1,0 +1,24 @@
+###############################################################################
+#
+# Global settings and defaults for target {{ prom_sexp_target.name }}.
+# See https://github.com/free/sql_exporter/blob/master/documentation/sql_exporter.yml
+#
+###############################################################################
+
+global:
+  scrape_timeout: {{ prom_sexp_target.scrape_timeout |default(__prom_sexp_default_scrape_timeout) }}
+  scrape_timeout_offset: {{ prom_sexp_target.scrape_timeout_offset | default(__prom_sexp_default_scrape_timeout_offset) }}
+  min_interval: {{ prom_sexp_target.min_interval |default(__prom_sexp_default_min_interval) }}
+  max_connections: {{ prom_sexp_target.max_connections | default(__prom_sexp_default_max_connections)}}
+  max_idle_connections: {{ prom_sexp_target.max_idle_connections | default(__prom_sexp_default_max_idle_connections)}}
+
+target:
+  data_source_name: '{{ prom_sexp_target.data_source_name }}'
+  collectors: [{{ prom_sexp_target.collector_names | default([]) | join(',')}}]
+
+{% if prom_sexp_target.collector_files_globs is defined and prom_sexp_target.collector_files_globs != None %}
+collector_files:
+{% for file_glob in prom_sexp_target.collector_files_globs %}
+  - "{{ file_glob }}"
+{% endfor%}
+{% endif %}

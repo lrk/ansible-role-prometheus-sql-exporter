@@ -1,0 +1,42 @@
+prom_sexp_targets:
+  - name: "target_1"
+    state: present
+    data_source_name: "postgres://postgresql:postgresql@postgresqldb:5432/test"
+    collector_names:
+      - collector1
+      - collector2
+    collector_files_globs:
+      - "{{ prom_sexp_path_collectors }}/*{{ prom_sexp_path_collectors_suffix }}"
+
+  - name: "delete_target"
+    state: absent
+
+prom_sexp_collectors:
+  - name: collector1
+    state: present
+    metrics:
+      - name: metric1
+        type: counter
+        help: metric1 help
+        metric_values:
+          - col1
+        query: "SELECT current_timestamp as col1 FROM dual;"
+      - name: metric2
+        type: counter
+        help: metric2 help
+        metric_values:
+          - col2
+        query_ref: queryref1
+    queries:
+      - name: queryref1
+        query: "SELECT current_timestamp * 2 as col2 FROM dual;"
+
+  - name: collector2
+    state: present
+    metrics:
+      - name: metric3
+        type: counter
+        help: metric3 help
+        metric_values:
+          - col1
+        query: "SELECT current_timestamp as col1 FROM dual;"
