@@ -114,7 +114,7 @@ prom_sexp_collectors: []
 #     key_labels: []                          # Optional set of labels derived from key columns.
 #     value_label: valuelabel                 # Required when multiple value columns are configured.
 #     # Multiple value columns: their name is recorded in the label defined by `attrubute_label`
-#     values:
+#     metric_values:
 #       - val1
 #       - val2
 #     query: "SELECT columns FROM table ...;" # optionnal, but either query or query_ref is required

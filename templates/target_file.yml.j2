@@ -13,12 +13,12 @@ global:
   max_idle_connections: {{ prom_sexp_target.max_idle_connections | default(__prom_sexp_default_max_idle_connections)}}
 
 target:
-  data_source_name: {{ prom_sexp_target.data_source_name }}
-  collectors: {{ prom_sexp_target.collector_names | default([])}}
+  data_source_name: '{{ prom_sexp_target.data_source_name }}'
+  collectors: [{{ prom_sexp_target.collector_names | default([]) | join(',')}}]
 
 {% if prom_sexp_target.collector_files_globs is defined and prom_sexp_target.collector_files_globs != None %}
 collector_files:
 {% for file_glob in prom_sexp_target.collector_files_globs %}
-  - {{ file_glob }}
+  - "{{ file_glob }}"
 {% endfor%}
 {% endif %}

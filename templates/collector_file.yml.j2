@@ -1,6 +1,6 @@
 ---
 collector_name: {{ prom_sexp_collector.name }}
-min_interval: {{ prom_sexp_collector.min_interval|default(__prom_sexp_default_min_interval) }}
+min_interval: {{ prom_sexp_collector.min_interval | default(__prom_sexp_default_min_interval) }}
 
 {% if prom_sexp_collector.metrics is defined and prom_sexp_collector.metrics != None %}
 metrics:
@@ -8,19 +8,21 @@ metrics:
   - metric_name: {{ metric.name }}
     type: {{ metric.type | default('counter') }}
     help: '{{ metric.help | default('') }}'
-    {% if metric.key_labels is defined and metric.key_labels != None %}
-    key_labels: {{ metric.key_labels }}
-    {% endif %}
-    {% if metric.value_label is defined and metric.value_label != None %}
+{% if metric.key_labels is defined and metric.key_labels != None %}
+    key_labels: {{ metric.key_labels | join(',')}}
+{% endif %}
+{% if metric.value_label is defined and metric.value_label != None %}
     value_label: {{ metric.value_label }}
-    {% endif %}
-    values: {{ metric.values | default([]) }}
-    {% if metric.query is defined and metric.query != None %}
+{% endif %}
+{% if metric.metric_values is defined and metric.metric_values != None %}
+    values: [{{ metric.metric_values | default([]) | join(',')}}]
+{% endif %}
+{% if metric.query is defined and metric.query != None %}
     query: {{ metric.query | default('')}}
-    {% endif %}
-    {% if metric.query_ref is defined and metric.query_ref != None %}
+{% endif %}
+{% if metric.query_ref is defined and metric.query_ref != None %}
     query_ref: {{ metric.query_ref }}
-    {% endif %}
+{% endif %}
 {% endfor %}
 {% endif %}
 

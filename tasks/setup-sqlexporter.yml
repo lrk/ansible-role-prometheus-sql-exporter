@@ -1,3 +1,29 @@
 ---
-- debug:
-    msg: Install Prometheus SQL Exporter binaries not implemented
+- name: "Ensure Prometheus SQL Exporter binaries exists"
+  stat:
+    path: "{{ prom_sexp_path_install }}/sql_exporter"
+  register: prom_sexp_binary_stat
+
+- block:
+  - name: "Download Prometheus SQL Exporter archive"
+    get_url:
+      url: "{{ __prom_sexp_github_bin_url }}"
+      dest: "/tmp/{{ __prom_sexp_tarball }}"
+    retries: 5
+    delay: 10
+
+  - name: "Expand Prometheus SQL Exporter archive"
+    unarchive:
+      src: "/tmp/{{ __prom_sexp_tarball }}"
+      dest: "{{ prom_sexp_path_install }}"
+      owner: "{{ prom_sexp_group }}"
+      group: "{{ prom_sexp_user }}"
+      copy: no
+      extra_opts: [--strip-components=1]
+
+  - name: "Remove Prometheus SQL Exporter archive"
+    file:
+      path: "/tmp/{{ __prom_sexp_tarball }}"
+      state: absent
+
+  when: not prom_sexp_binary_stat.stat.exists

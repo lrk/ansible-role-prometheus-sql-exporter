@@ -8,11 +8,11 @@ User={{ prom_sexp_user }}
 Restart=on-failure
 RestartSec=10
 ExecStart={{ prom_sexp_path_install }}/sql_exporter \
-          -alsologtostderr {{prom_sexp_alsologtostderr | default(true)}} \
-          -config.file {{ prom_sexp_target_config_file }} \
-          -log_dir {{ prom_sexp_path_logs }} \
-          -web.listen-address {{ prom_sexp_target_listen_address }} \
-          -web.metrics-path {{ prom_sexp_target_metrics_path }}
+          -alsologtostderr={{prom_sexp_alsologtostderr | default(true) | lower}} \
+          -config.file={{ prom_sexp_target_config_file }} \
+          -log_dir={{ prom_sexp_path_logs }} \
+          -web.listen-address={{ prom_sexp_target_listen_address }} \
+          -web.metrics-path={{ prom_sexp_target_metrics_path }}
 
 [Install]
 WantedBy=multi-user.target
