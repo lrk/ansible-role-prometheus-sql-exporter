@@ -1,7 +1,4 @@
 ---
-- debug:
-    msg: "{{ prom_sexp_collector }}"
-
 - name: "Ensure not needed collectors files are removed"
   file:
     path: "{{ prom_sexp_path_collectors }}/{{ prom_sexp_collector.name }}{{ prom_sexp_path_collectors_suffix }}"

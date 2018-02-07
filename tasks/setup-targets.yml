@@ -1,7 +1,4 @@
 ---
-- debug:
-    msg: "{{ prom_sexp_target }}"
-
 - name: "Set Prometheus SQL Exporter target facts"
   set_fact:
     prom_sexp_target_config_file: "{{ prom_sexp_path_config }}/{{ prom_sexp_target.name }}.yml"
