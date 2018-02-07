@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  remote_user: root
+  become: true
+  vars:
+  roles:
+    - ansible-prometheus-sql-exporter

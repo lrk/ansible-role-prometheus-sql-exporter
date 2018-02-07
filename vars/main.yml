@@ -1,0 +1,4 @@
+---
+# vars file for ansible-prometheus-sql-exporter
+
+# Internal vars, do not touch nor override
