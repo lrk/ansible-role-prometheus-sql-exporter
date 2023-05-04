@@ -4,7 +4,7 @@
 prom_sexp_group: prometheus_sql_exporter
 prom_sexp_user: prometheus_sql_exporter
 # Prometheus SQL Exporter release version (see: https://github.com/free/sql_exporter/releases for available versions)
-prom_sexp_version: 0.4
+prom_sexp_version: 0.10.0
 
 # Prometheus SQL Exporter installation path
 prom_sexp_path_install: /opt/prometheus/sql-exporter
