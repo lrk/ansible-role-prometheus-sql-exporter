@@ -6,7 +6,7 @@ Ansible Role: Prometheus SQL Exporter ([lrk.prometheus-sql-exporter](https://gal
 ![Ansible](https://img.shields.io/badge/dynamic/json.svg?label=min_ansible_version&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2F23765%2F&query=$.min_ansible_version)
 ![Ansible](https://img.shields.io/ansible/quality/23765)
 
-An Ansible Role that install [Prometheus](https://prometheus.io) [SQL Exporter](https://github.com/free/sql_exporter).
+An Ansible Role that install [Prometheus](https://prometheus.io) [SQL Exporter](https://github.com/burningalchemist/sql_exporter).
 
 
 Supported OSes
@@ -28,8 +28,8 @@ Available variables along with default values are listed below (see `defaults/ma
 
 prom_sexp_group: prometheus_sql_exporter
 prom_sexp_user: prometheus_sql_exporter
-# Prometheus SQL Exporter release version (see: https://github.com/free/sql_exporter/releases for available versions)
-prom_sexp_version: 0.4
+# Prometheus SQL Exporter release version (see: https://github.com/burningalchemist/sql_exporter/releases for available versions)
+prom_sexp_version: 0.10.0
 
 # Prometheus SQL Exporter installation path
 prom_sexp_path_install: /opt/prometheus/sql-exporter
@@ -40,15 +40,13 @@ prom_sexp_path_config: /etc/prometheus/sql-exporter
 # Prometheus SQL Exporter collectors path
 prom_sexp_path_collectors: "{{ prom_sexp_path_config }}/collectors"
 prom_sexp_path_collectors_suffix: ".collector.yml"
-# Prometheus SQL Exporter logs path
-prom_sexp_path_logs: "/var/log/prometheus/sql-exporter"
+# Prometheus SQL Exporter log level
+prom_sexp_log_level: DEBUG
 
 
 # Prometheus SQL Exporter service configuration
 # Service name prefix, the suffix is taken from target_name (see below)
 prom_sexp_service_name_prefix: prom-sql-exp
-# log to standard error as well as files (default true)
-prom_sexp_alsologtostderr: true
 
 # Array of Prometheus SQL Exporter targets
 # Each target:
@@ -176,7 +174,7 @@ Example Playbook
  ----------
 
 - [Prometheus.io](https://prometheus.io)
-- [Prometheus SQL Exporter](https://github.com/free/sql_exporter)
+- [Prometheus SQL Exporter](https://github.com/burningalchemist/sql_exporter)
 
 Author Information
 ------------------
