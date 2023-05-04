@@ -15,15 +15,12 @@ prom_sexp_path_config: /etc/prometheus/sql-exporter
 # Prometheus SQL Exporter collectors path
 prom_sexp_path_collectors: "{{ prom_sexp_path_config }}/collectors"
 prom_sexp_path_collectors_suffix: ".collector.yml"
-# Prometheus SQL Exporter logs path
-prom_sexp_path_logs: "/var/log/prometheus/sql-exporter"
-
+# Prometheus SQL Exporter log level
+prom_sexp_log_level: DEBUG
 
 # Prometheus SQL Exporter service configuration
 # Service name prefix, the suffix is taken from target_name (see below)
 prom_sexp_service_name_prefix: prom-sql-exp
-# log to standard error as well as files (default true)
-prom_sexp_alsologtostderr: true
 
 # Array of Prometheus SQL Exporter targets
 # Each target:

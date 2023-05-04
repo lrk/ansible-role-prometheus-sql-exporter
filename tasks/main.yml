@@ -24,7 +24,6 @@
     mode: "u=rwx,g=rx,o="
   with_items:
     - "{{ prom_sexp_path_install }}"
-    - "{{ prom_sexp_path_logs }}"
     - "{{ prom_sexp_path_config }}"
     - "{{ prom_sexp_path_collectors }}"
 
