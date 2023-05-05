@@ -3,7 +3,7 @@
 
 # Internal vars, do not touch nor override
 __prom_sexp_tarball: "sql_exporter-{{ prom_sexp_version }}.linux-amd64.tar.gz"
-__prom_sexp_github_bin_url: "https://github.com/free/sql_exporter/releases/download/{{ prom_sexp_version }}/{{ __prom_sexp_tarball }}"
+__prom_sexp_github_bin_url: "https://github.com/burningalchemist/sql_exporter/releases/download/{{ prom_sexp_version }}/{{ __prom_sexp_tarball }}"
 __prom_sexp_default_listen_address: ":9399"
 __prom_sexp_default_metrics_path: "/metrics"
 __prom_sexp_default_scrape_timeout: 10s
